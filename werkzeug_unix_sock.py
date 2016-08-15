@@ -32,7 +32,7 @@ class WerkzeugPatcher(object):
     def _patch_werkzeug_serving_WSGIRequestHandler_init(self):
         """Patches ``werkzeug.serving.WSGIRequestHandler.__init__`` method."""
         def new_init(inst, *args, **kwargs):
-            super(inst.__class__, inst).__init__(*args, **kwargs)
+            super(werkzeug.serving.WSGIRequestHandler, inst).__init__(*args, **kwargs)
             inst.client_address = CLIENT_ADDRESS
 
         self._orig_werkzeug_serving_WSGIRequestHandler_init =\
@@ -81,7 +81,7 @@ class WerkzeugPatcher(object):
     def _patch_werkzeug_serving_BaseWSGIServer_get_request(self):
         """Patches ``werkzeug.serving.BaseWSGIServer.get_request`` method."""
         def new_get_request(inst):
-            con, _ = super(inst.__class__, inst).get_request()
+            con, _ = super(werkzeug.serving.BaseWSGIServer, inst).get_request()
             return con, CLIENT_ADDRESS
 
         self._orig_werkzeug_serving_BaseWSGIServer_get_request =\
